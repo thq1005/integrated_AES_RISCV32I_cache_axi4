@@ -1,0 +1,72 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/define.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/aes_decipher_block.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/aes_encipher_block.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/aes_inv_sbox.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/aes_sbox.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/cpu_wrapper.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/gm11.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/gm13.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/gm14.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/gm2.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/gm3.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/gm4.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/gm9.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/inv_mixcolumns.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/inv_mixw.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/inv_shiftrows.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/mem_wrapper.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/memory.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/mixcolumns.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/mixw.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/shiftrows.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/aes_key_mem.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/aes_core.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/aes_wrapper.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/aes.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/shift_left_logical.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/EX.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/regfile.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/adder_32bit.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/set_less_than.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/ctrl_unit.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/xor_32bit.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/Branch_predictor.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/pc.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/brcomp.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/set_equal.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/mux2to1_32bit.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/imm_gen.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/shift_right_logical.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/mux3to1_32bit.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/ID.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/full_subtractor.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/IF.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/subtractor_32bit.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/i_cache.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/or_32bit.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/riscv_cache.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/full_adder.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/d_cache.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/and_32bit.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/Hazard_unit.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/alu.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/icache_controller.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/set_less_than_unsign.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/WB.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/shift_right_arithmetic.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/MEM.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/cache_def.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/cache_data.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/cache_tag.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/cache_pLRU.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/cache_fsm.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sources_1/new/decode_dif.sv" \
+"../../../../integrated_AES_RISCV32I_cache_axi4.srcs/sim_1/new/mem_wrapper_tb.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

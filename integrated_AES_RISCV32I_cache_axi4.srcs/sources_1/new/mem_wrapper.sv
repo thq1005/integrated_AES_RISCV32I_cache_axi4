@@ -246,7 +246,7 @@ always_ff @(posedge clk_i) begin
                 awaddr_reg <= awaddr_reg;
         end
     end
-end
+end   
 
 
 assign A = (rw) ? awaddr_reg : araddr_reg;

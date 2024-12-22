@@ -78,6 +78,6 @@ module Asynchronous_AXI_to_AXI_Bridge(
     output logic s0_rready
     );
     
-    
+    logic rpt;
     
 endmodule

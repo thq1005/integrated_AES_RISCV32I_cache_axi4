@@ -1,6 +1,6 @@
 `include "define.sv"
 
-module mem_wrapper (
+module axi_interface_slave (
   input logic clk_i,
   input logic rst_ni,
   // AXI interface
@@ -42,6 +42,7 @@ module mem_wrapper (
   output logic o_we,
   output logic [`ADDR_WIDTH-1:0] o_waddr,
   output logic [`DATA_WIDTH-1:0] o_wdata,
+  output logic [(`DATA_WIDTH/8)-1:0] o_strb,
   output logic o_re,
   output logic [`ADDR_WIDTH-1:0] o_raddr,
   input logic [`DATA_WIDTH-1:0] i_rdata
@@ -156,6 +157,7 @@ always_comb begin
     o_we    = (wvalid && wready);
     o_waddr = waddr;
     o_wdata = wdata;
+    o_strb  = wstrb;
 end
 
 assign wready = axi_wready;
@@ -192,7 +194,7 @@ always_ff @(posedge clk_i) begin
         axi_rlen <= 0;
     end
     else if (arvalid && arready) 
-        axi_rlen <= (arlen+1)+((rvalid && !rready) ? 1:0);
+        axi_rlen <= (arlen+1) + ((rvalid && !rready) ? 1:0);
     else if (rready && rvalid)
         axi_rlen <= axi_rlen - 1;
 end

@@ -79,6 +79,9 @@ always_ff @(posedge clk_i) begin
         if (round_ctr_we)
             round_ctr_reg <= round_ctr_new;
         
+        if (key_mem_we)
+            key_mem [round_ctr_reg] <= key_mem_new;
+        
         if (prev_key_we)
             prev_key_reg <= prev_key_new;
             

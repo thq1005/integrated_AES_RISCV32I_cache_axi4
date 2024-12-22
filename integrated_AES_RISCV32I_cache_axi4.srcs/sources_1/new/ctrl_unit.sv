@@ -72,10 +72,10 @@ module ctrl_unit(
 	assign Bsel_o = (opcode_r == `OP_Rtype) ? 1'b0 : 1'b1;
 	
 	assign ImmSel_o = ((opcode_r == `OP_Itype) | (opcode_r == `OP_JALR) | (opcode_r == `OP_Itype_load)) ? `I_TYPE : 
-							(opcode_r == `OP_Stype) 																			 ? `S_TYPE : 
-							(opcode_r == `OP_Btype)																				 ? `B_TYPE : 
-							(opcode_r == `OP_JAL)   																			 ? `J_TYPE : 
-							((opcode_r == `OP_LUI) | (opcode_r == `OP_AUIPC))											 ? `U_TYPE : 3'b111;
+					   (opcode_r == `OP_Stype) 															? `S_TYPE : 
+					   (opcode_r == `OP_Btype)															? `B_TYPE : 
+                       (opcode_r == `OP_JAL)   															? `J_TYPE : 
+                       ((opcode_r == `OP_LUI) | (opcode_r == `OP_AUIPC))								? `U_TYPE : 3'b111;
 	
 	assign MemRW_o = (opcode_r == `OP_Stype) ? 1'b1 : 1'b0;
 	

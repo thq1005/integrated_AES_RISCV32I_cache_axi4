@@ -7,7 +7,6 @@ module MEM(
 	input logic MemRW_mem_i,
 	input logic [1:0] WBSel_mem_i,
 	input logic RegWEn_mem_i,
-	input logic [31:0] io_sw_i,
 	input logic [4:0] rsW_mem_i,
 	input logic [31:0] inst_mem_i,
 	input logic enable_i,
@@ -23,16 +22,16 @@ module MEM(
 	output logic [4:0] rsW_wb_o,
 	output logic [31:0] inst_wb_o,
 	output logic stall_by_dcache_o,
-	output logic [31:0] no_acc_o,
-	output logic [31:0] no_hit_o,
-	output logic [31:0] no_miss_o,
+//	output logic [31:0] no_acc_o,
+//	output logic [31:0] no_hit_o,
+//	output logic [31:0] no_miss_o,
 	
 	output logic [31:0] mem_addr_o,
 	output logic [127:0] mem_wdata_o,
 	output logic mem_we_o,
 	output logic mem_cs_o,
-	input logic  [127:0] mem_rdata_i
-	
+	input logic  [127:0] mem_rdata_i,
+	input logic  mem_rvalid_i
 	);
 	
 	logic [31:0] mem_w;
@@ -44,7 +43,6 @@ module MEM(
 	logic [31:0] inst_r;
 
 	/* valid signal that memory response to cache */
-	logic Valid_memory2cache_w;
 
 	import cache_def::*;
 	cpu_req_type cpu_req_w;
@@ -67,10 +65,10 @@ module MEM(
     	.cpu_req_i(cpu_req_w),
     	.mem_data_i(mem_data_w),
     	.cpu_res_o(cpu_result_w),
-    	.mem_req_o(mem_req_w),
-		.no_acc_o(no_acc_o),
-		.no_hit_o(no_hit_o),
-		.no_miss_o(no_miss_o)
+    	.mem_req_o(mem_req_w)
+//		.no_acc_o(no_acc_o),
+//		.no_hit_o(no_hit_o),
+//		.no_miss_o(no_miss_o)
 	);
 
 	assign mem_w = cpu_result_w.data;
@@ -123,7 +121,7 @@ module MEM(
 	assign cpu_req_w.valid = Valid_cpu2cache_mem_i & (~stall_by_icache_i);
 	//assign mem_data_w = {memory_data_w, Valid_memory2cache_w};
 	assign mem_data_w.data = memory_data_w;
-	assign mem_data_w.ready = Valid_memory2cache_w;
+	assign mem_data_w.ready = mem_rvalid_i;
 
 	/* control stall for previous stages */
 	assign stall_by_dcache_o = (Valid_cpu2cache_mem_i&(~cpu_result_w.ready)) ? 1'b1 : 1'b0;

@@ -15,9 +15,9 @@ module cache_fsm(
     output cache_req_type data_req_o,
     output cpu_result_type cpu_res_o,
     output mem_req_type mem_req_o,
-    output logic [31:0] no_acc_o,
-    output logic [31:0] no_hit_o,
-    output logic [31:0] no_miss_o,
+//    output logic [31:0] no_acc_o,
+//    output logic [31:0] no_hit_o,
+//    output logic [31:0] no_miss_o,
     output logic lru_valid_o,
     output logic accessing_o // signal use only for icache stall
 );
@@ -59,64 +59,65 @@ module cache_fsm(
     logic lru_valid;
 
 
-    /* var of counter */
-    logic [31:0] no_acc_old_w;
-    //logic [31:0] no_hit_old_w;
-    logic [31:0] no_miss_old_w;
+//    /* var of counter */
+//    logic [31:0] no_acc_old_w;
+//    //logic [31:0] no_hit_old_w;
+//    logic [31:0] no_miss_old_w;
 
-    logic [31:0] no_acc_new_w;
-    logic [31:0] no_hit_new_w;
-    logic [31:0] no_miss_new_w;
+//    logic [31:0] no_acc_new_w;
+//    logic [31:0] no_hit_new_w;
+//    logic [31:0] no_miss_new_w;
 
-    logic [31:0] no_acc_r;
-    logic [31:0] no_hit_r;
-    logic [31:0] no_miss_r;
+//    logic [31:0] no_acc_r;
+//    logic [31:0] no_hit_r;
+//    logic [31:0] no_miss_r;
 
-    logic acc1_w; // if access (load or store) acc1_w = 1 otherwise 0
-    //logic hit1_w; // if cache hit hit1_w = 1 otherwise 0
-    logic miss1_w; // if cache miss miss1_w = 1 otherwise 0
+//    logic acc1_w; // if access (load or store) acc1_w = 1 otherwise 0
+//    //logic hit1_w; // if cache hit hit1_w = 1 otherwise 0
+//    logic miss1_w; // if cache miss miss1_w = 1 otherwise 0
 
     /* -------------------*/
 
-    /* count for additional variables */
-    adder_32bit A_access (
-            .a_i(no_acc_old_w),
-            .b_i({31'b0, acc1_w}),
-            .c_o(),
-            .re_o(no_acc_new_w)
-    );
-    subtractor_32bit S_hit (
-            .a_i(no_acc_o),
-            .b_i(no_miss_o),
-            .b_o(),
-            .d_o(no_hit_o)
-    );
-    adder_32bit A_miss (
-            .a_i(no_miss_old_w),
-            .b_i({31'b0, miss1_w}),
-            .c_o(),
-            .re_o(no_miss_new_w)
-    );
-    always_ff @(posedge clk_i, negedge rst_ni) begin
-            if (!rst_ni) begin
-                    no_acc_r <= 32'b0;
-                    //no_hit_r <= 32'b0;
-                    no_miss_r <= 32'b0;
-            end
-            else begin
-                    no_acc_r <= no_acc_new_w;
-                    //no_hit_r <= no_hit_new_w;
-                    no_miss_r <= no_miss_new_w;
-            end
-    end
+//    /* count for additional variables */
+//    adder_32bit A_access (
+//            .a_i(no_acc_old_w),
+//            .b_i({31'b0, acc1_w}),
+//            .c_o(),
+//            .re_o(no_acc_new_w)
+//    );
+//    subtractor_32bit S_hit (
+//            .a_i(no_acc_o),
+//            .b_i(no_miss_o),
+//            .b_o(),
+//            .d_o(no_hit_o)
+//    );
+//    adder_32bit A_miss (
+//            .a_i(no_miss_old_w),
+//            .b_i({31'b0, miss1_w}),
+//            .c_o(),
+//            .re_o(no_miss_new_w)
+//    );
+    
+//    always_ff @(posedge clk_i, negedge rst_ni) begin
+//            if (!rst_ni) begin
+//                    no_acc_r <= 32'b0;
+//                    //no_hit_r <= 32'b0;
+//                    no_miss_r <= 32'b0;
+//            end
+//            else begin
+//                    no_acc_r <= no_acc_new_w;
+//                    //no_hit_r <= no_hit_new_w;
+//                    no_miss_r <= no_miss_new_w;
+//            end
+//    end
 
-    assign no_acc_old_w = no_acc_r; // update old value
-    //assign no_hit_old_w = no_hit_r;
-    assign no_miss_old_w = no_miss_r;
+//    assign no_acc_old_w = no_acc_r; // update old value
+//    //assign no_hit_old_w = no_hit_r;
+//    assign no_miss_old_w = no_miss_r;
 
-    assign no_acc_o = no_acc_r; // update output
-    //assign no_hit_o = no_hit_r;
-    assign no_miss_o = no_miss_r;
+//    assign no_acc_o = no_acc_r; // update output
+//    //assign no_hit_o = no_hit_r;
+//    assign no_miss_o = no_miss_r;
 
     /* --------------- */
 
@@ -125,7 +126,6 @@ module cache_fsm(
     assign mem_req_o = v_mem_req;
 
     /* debuging */
-     /* fix case address request for L2 cache being changed when transfer to Writeback state */
     logic [31:0] address_wb;
 
     /* Combinational block */
@@ -176,9 +176,9 @@ module cache_fsm(
         v_mem_req.valid = '0;
 
         lru_valid = 1'b0; // default vaule of signal load lru
-        acc1_w = 1'b0; // default value of access count incr
-        //hit1_w = 1'b0;
-        miss1_w = 1'b0;
+//        acc1_w = 1'b0; // default value of access count incr
+//        //hit1_w = 1'b0;
+//        miss1_w = 1'b0;
         accessing_o = 1'b0;
 
         /* ------------------- Cache FSM --------------------- */
@@ -189,7 +189,7 @@ module cache_fsm(
                 /* if there is a CPU reqest, then compare cache tag */
                 if (cpu_req_i.valid) begin
                     vstate = COMPARE_TAG;
-                    acc1_w = 1'b1;
+//                    acc1_w = 1'b1;
                 end
             end
             COMPARE_TAG: begin
@@ -217,7 +217,7 @@ module cache_fsm(
                 /* cache miss */
                 else begin
                     accessing_o = 1'b1;
-                    miss1_w = 1'b1;
+//                    miss1_w = 1'b1;
 
                     /* generate new tag */
                     tag_req.we = '1;

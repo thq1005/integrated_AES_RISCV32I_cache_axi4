@@ -36,8 +36,8 @@ logic core_encdec;
 logic core_init;
 logic core_next;
 logic core_ready;
-logic [255:0] core_key;
-logic core_block;
+logic [127:0] core_key;
+logic [127:0] core_block;
 logic [127 : 0] core_result;
 logic core_valid;
 
@@ -113,7 +113,9 @@ always_comb begin
       
             if ((addr_i >= `ADDR_BLOCK0) && (addr_i <= `ADDR_BLOCK3)) 
                 block_we = 1'b1;
-
+            
+            if ((addr_i >= `ADDR_KEY0) && (addr_i <= `ADDR_KEY3))
+                key_we = 1'b1;
         end
         else begin
             case (addr_i)

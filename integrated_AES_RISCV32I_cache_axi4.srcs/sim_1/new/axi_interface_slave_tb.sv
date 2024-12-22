@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module mem_wrapper_tb;
+module axi_interface_slave_tb;
 parameter simulation_cycle = 100;
 bit SystemClock;
 slave_0_io top_io (SystemClock);

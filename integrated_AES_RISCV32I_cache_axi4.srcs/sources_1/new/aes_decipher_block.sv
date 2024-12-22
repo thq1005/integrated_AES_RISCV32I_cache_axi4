@@ -176,7 +176,8 @@ always_comb begin
         MAIN_UPDATE: begin
             addkey_block = old_block ^ round_key_i;
             inv_mixcolumns_i = addkey_block;
-            block_new = inv_mixcolumns_block;
+            inv_shiftrows_i = inv_mixcolumns_block;
+            block_new = inv_shiftrows_block;
             block_w0_we  = 1'b1;
             block_w1_we  = 1'b1;
             block_w2_we  = 1'b1;

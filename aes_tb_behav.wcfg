@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="aes_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="aes_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="9,973.041 ns"></ZoomStartTime>
+      <ZoomEndTime time="10,281.042 ns"></ZoomEndTime>
+      <Cursor1Time time="10,204.241 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="234"></NameColumnWidth>
+      <ValueColumnWidth column_width="94"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="51" />
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/clk_i" type="logic">
+      <obj_property name="ElementShortName">clk_i</obj_property>
+      <obj_property name="ObjectShortName">clk_i</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/rst_ni" type="logic">
+      <obj_property name="ElementShortName">rst_ni</obj_property>
+      <obj_property name="ObjectShortName">rst_ni</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/next_i" type="logic">
+      <obj_property name="ElementShortName">next_i</obj_property>
+      <obj_property name="ObjectShortName">next_i</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/round_o" type="array">
+      <obj_property name="ElementShortName">round_o[3:0]</obj_property>
+      <obj_property name="ObjectShortName">round_o[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/round_key_i" type="array">
+      <obj_property name="ElementShortName">round_key_i[127:0]</obj_property>
+      <obj_property name="ObjectShortName">round_key_i[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/block_i" type="array">
+      <obj_property name="ElementShortName">block_i[127:0]</obj_property>
+      <obj_property name="ObjectShortName">block_i[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/new_block_o" type="array">
+      <obj_property name="ElementShortName">new_block_o[127:0]</obj_property>
+      <obj_property name="ObjectShortName">new_block_o[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/ready_o" type="logic">
+      <obj_property name="ElementShortName">ready_o</obj_property>
+      <obj_property name="ObjectShortName">ready_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/round_ctr_reg" type="array">
+      <obj_property name="ElementShortName">round_ctr_reg[3:0]</obj_property>
+      <obj_property name="ObjectShortName">round_ctr_reg[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/round_ctr_we" type="logic">
+      <obj_property name="ElementShortName">round_ctr_we</obj_property>
+      <obj_property name="ObjectShortName">round_ctr_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/round_ctr_new" type="array">
+      <obj_property name="ElementShortName">round_ctr_new[3:0]</obj_property>
+      <obj_property name="ObjectShortName">round_ctr_new[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/round_ctr_dec" type="logic">
+      <obj_property name="ElementShortName">round_ctr_dec</obj_property>
+      <obj_property name="ObjectShortName">round_ctr_dec</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/round_ctr_set" type="logic">
+      <obj_property name="ElementShortName">round_ctr_set</obj_property>
+      <obj_property name="ObjectShortName">round_ctr_set</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/sword_ctr_reg" type="array">
+      <obj_property name="ElementShortName">sword_ctr_reg[1:0]</obj_property>
+      <obj_property name="ObjectShortName">sword_ctr_reg[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/sword_ctr_we" type="logic">
+      <obj_property name="ElementShortName">sword_ctr_we</obj_property>
+      <obj_property name="ObjectShortName">sword_ctr_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/sword_ctr_new" type="array">
+      <obj_property name="ElementShortName">sword_ctr_new[1:0]</obj_property>
+      <obj_property name="ObjectShortName">sword_ctr_new[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/sword_ctr_rst" type="logic">
+      <obj_property name="ElementShortName">sword_ctr_rst</obj_property>
+      <obj_property name="ObjectShortName">sword_ctr_rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/sword_ctr_inc" type="logic">
+      <obj_property name="ElementShortName">sword_ctr_inc</obj_property>
+      <obj_property name="ObjectShortName">sword_ctr_inc</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/dec_ctrl_reg" type="array">
+      <obj_property name="ElementShortName">dec_ctrl_reg[1:0]</obj_property>
+      <obj_property name="ObjectShortName">dec_ctrl_reg[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/dec_ctrl_we" type="logic">
+      <obj_property name="ElementShortName">dec_ctrl_we</obj_property>
+      <obj_property name="ObjectShortName">dec_ctrl_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/dec_ctrl_new" type="array">
+      <obj_property name="ElementShortName">dec_ctrl_new[1:0]</obj_property>
+      <obj_property name="ObjectShortName">dec_ctrl_new[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/tmp_sboxw" type="array">
+      <obj_property name="ElementShortName">tmp_sboxw[31:0]</obj_property>
+      <obj_property name="ObjectShortName">tmp_sboxw[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/new_sboxw" type="array">
+      <obj_property name="ElementShortName">new_sboxw[31:0]</obj_property>
+      <obj_property name="ObjectShortName">new_sboxw[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/block_w0_reg" type="array">
+      <obj_property name="ElementShortName">block_w0_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">block_w0_reg[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/block_w1_reg" type="array">
+      <obj_property name="ElementShortName">block_w1_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">block_w1_reg[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/block_w2_reg" type="array">
+      <obj_property name="ElementShortName">block_w2_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">block_w2_reg[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/block_w3_reg" type="array">
+      <obj_property name="ElementShortName">block_w3_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">block_w3_reg[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/block_new" type="array">
+      <obj_property name="ElementShortName">block_new[127:0]</obj_property>
+      <obj_property name="ObjectShortName">block_new[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/block_w0_we" type="logic">
+      <obj_property name="ElementShortName">block_w0_we</obj_property>
+      <obj_property name="ObjectShortName">block_w0_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/block_w1_we" type="logic">
+      <obj_property name="ElementShortName">block_w1_we</obj_property>
+      <obj_property name="ObjectShortName">block_w1_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/block_w2_we" type="logic">
+      <obj_property name="ElementShortName">block_w2_we</obj_property>
+      <obj_property name="ObjectShortName">block_w2_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/block_w3_we" type="logic">
+      <obj_property name="ElementShortName">block_w3_we</obj_property>
+      <obj_property name="ObjectShortName">block_w3_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/ready_reg" type="logic">
+      <obj_property name="ElementShortName">ready_reg</obj_property>
+      <obj_property name="ObjectShortName">ready_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/ready_we" type="logic">
+      <obj_property name="ElementShortName">ready_we</obj_property>
+      <obj_property name="ObjectShortName">ready_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/ready_new" type="logic">
+      <obj_property name="ElementShortName">ready_new</obj_property>
+      <obj_property name="ObjectShortName">ready_new</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/old_block" type="array">
+      <obj_property name="ElementShortName">old_block[127:0]</obj_property>
+      <obj_property name="ObjectShortName">old_block[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/inv_shiftrows_block" type="array">
+      <obj_property name="ElementShortName">inv_shiftrows_block[127:0]</obj_property>
+      <obj_property name="ObjectShortName">inv_shiftrows_block[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/inv_mixcolumns_block" type="array">
+      <obj_property name="ElementShortName">inv_mixcolumns_block[127:0]</obj_property>
+      <obj_property name="ObjectShortName">inv_mixcolumns_block[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/addkey_block" type="array">
+      <obj_property name="ElementShortName">addkey_block[127:0]</obj_property>
+      <obj_property name="ObjectShortName">addkey_block[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/update_type" type="array">
+      <obj_property name="ElementShortName">update_type[2:0]</obj_property>
+      <obj_property name="ObjectShortName">update_type[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/inv_shiftrows_i" type="array">
+      <obj_property name="ElementShortName">inv_shiftrows_i[127:0]</obj_property>
+      <obj_property name="ObjectShortName">inv_shiftrows_i[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/inv_mixcolumns_i" type="array">
+      <obj_property name="ElementShortName">inv_mixcolumns_i[127:0]</obj_property>
+      <obj_property name="ObjectShortName">inv_mixcolumns_i[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/CTRL_IDLE" type="array">
+      <obj_property name="ElementShortName">CTRL_IDLE[1:0]</obj_property>
+      <obj_property name="ObjectShortName">CTRL_IDLE[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/CTRL_INIT" type="array">
+      <obj_property name="ElementShortName">CTRL_INIT[1:0]</obj_property>
+      <obj_property name="ObjectShortName">CTRL_INIT[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/CTRL_SBOX" type="array">
+      <obj_property name="ElementShortName">CTRL_SBOX[1:0]</obj_property>
+      <obj_property name="ObjectShortName">CTRL_SBOX[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/CTRL_MAIN" type="array">
+      <obj_property name="ElementShortName">CTRL_MAIN[1:0]</obj_property>
+      <obj_property name="ObjectShortName">CTRL_MAIN[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/NO_UPDATE" type="array">
+      <obj_property name="ElementShortName">NO_UPDATE[2:0]</obj_property>
+      <obj_property name="ObjectShortName">NO_UPDATE[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/INIT_UPDATE" type="array">
+      <obj_property name="ElementShortName">INIT_UPDATE[2:0]</obj_property>
+      <obj_property name="ObjectShortName">INIT_UPDATE[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/SBOX_UPDATE" type="array">
+      <obj_property name="ElementShortName">SBOX_UPDATE[2:0]</obj_property>
+      <obj_property name="ObjectShortName">SBOX_UPDATE[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/MAIN_UPDATE" type="array">
+      <obj_property name="ElementShortName">MAIN_UPDATE[2:0]</obj_property>
+      <obj_property name="ObjectShortName">MAIN_UPDATE[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/aes_tb/dut/core/dec_block/FINAL_UPDATE" type="array">
+      <obj_property name="ElementShortName">FINAL_UPDATE[2:0]</obj_property>
+      <obj_property name="ObjectShortName">FINAL_UPDATE[2:0]</obj_property>
+   </wvobject>
+</wave_config>

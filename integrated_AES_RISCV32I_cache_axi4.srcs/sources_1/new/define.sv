@@ -79,4 +79,7 @@
 `define ADDR_RESULT0        8'h30
 `define ADDR_RESULT3        8'h33
 
+//Asyn AXI to AXI bridge
+`define FIFO_DEPTH               8
+
 `endif

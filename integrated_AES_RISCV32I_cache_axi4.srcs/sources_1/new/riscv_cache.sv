@@ -1,19 +1,14 @@
-
+`include "define.sv"
 module riscv_cache(
 	input logic clk_i,
 	input logic rst_ni,
-	
-	output logic [31:0] dmem_addr_o,
-	output logic [127:0] dmem_wdata_o,
-	output logic dmem_we_o,
-	output logic dmem_cs_o,
-	input logic [127:0] dmem_rdata_i,
-	
-	output logic [31:0] imem_addr_o,
-	output logic [127:0] imem_wdata_o,
-	output logic imem_we_o,
-	output logic imem_cs_o,
-	input logic [127:0] imem_rdata_i	
+    output logic [`ADDR_WIDTH-1:0] addr_o,
+    output logic [`DATA_WIDTH_CACHE-1:0] wdata_o,
+    output logic we_o,
+    output logic cs_o,
+    input logic [`DATA_WIDTH_CACHE-1:0] rdata_i,
+    input logic rvalid_i,
+    input logic handshaked_i
 	);
 	
 	logic BrEq_w, BrLt_w, RegWEn_w;
@@ -54,18 +49,31 @@ module riscv_cache(
 
 	logic stall_by_dcache_w;
 	logic stall_by_icache_w;
+    
+    logic [31:0] dmem_addr_o;
+	logic [127:0] dmem_wdata_o;
+	logic dmem_we_o;
+	logic dmem_cs_o;
+	logic [127:0] dmem_rdata_i;
+	logic dmem_rvalid_i;
 
-	/* evaluation */
-	logic [31:0] icache_no_acc_w, icache_no_hit_w, icache_no_miss_w, dcache_no_acc_w, dcache_no_hit_w, dcache_no_miss_w;
-	//logic [31:0] no_command_w;
+	logic [31:0] imem_addr_o;
+	logic [127:0] imem_wdata_o;
+	logic imem_we_o;
+	logic imem_cs_o;
+	logic [127:0] imem_rdata_i;
+	logic imem_rvalid_i;
+//	/* evaluation */
+//	logic [31:0] icache_no_acc_w, icache_no_hit_w, icache_no_miss_w, dcache_no_acc_w, dcache_no_hit_w, dcache_no_miss_w;
+//	//logic [31:0] no_command_w;
 
-	subtractor_32bit Icache_hit(
-		.a_i(icache_no_acc_w),
-		.b_i(icache_no_miss_w),
-		.d_o(icache_no_hit_w),
-		.b_o()
-	);
-	/* ---------- */
+//	subtractor_32bit Icache_hit(
+//		.a_i(icache_no_acc_w),
+//		.b_i(icache_no_miss_w),
+//		.d_o(icache_no_hit_w),
+//		.b_o()
+//	);
+//	/* ---------- */
 	
 	IF IF(
 		.clk_i(clk_i),
@@ -84,15 +92,16 @@ module riscv_cache(
 		.pc_bp_o(pc_bp_w),
 		.hit_d_o(hit_d_w),
 		.stall_by_icache_o(stall_by_icache_w),
-		.No_command_o(icache_no_acc_w),
-		.no_acc_o(),
-		.no_hit_o(),
-		.no_miss_o(icache_no_miss_w),
+//		.No_command_o(icache_no_acc_w),
+//		.no_acc_o(),
+//		.no_hit_o(),
+//		.no_miss_o(icache_no_miss_w),
 		.mem_addr_o(imem_addr_o),
 	    .mem_wdata_o(imem_wdata_o),
 	    .mem_we_o(imem_we_o),
 	    .mem_cs_o(imem_cs_o),
-	    .mem_rdata_i(imem_rdata_i)
+	    .mem_rdata_i(imem_rdata_i),
+	    .mem_rvalid_i(imem_rvalid_i)
 		);
 		
 	ID ID(
@@ -172,7 +181,6 @@ module riscv_cache(
 		.WBSel_mem_i(WBSel_mem_w),
 		.RegWEn_mem_i(RegWEn_mem_w),
 		.rsW_mem_i(rsW_mem_w),
-		.io_sw_i(io_sw_i),
 		.inst_mem_i(inst_mem_w),
 		.enable_i(~(Stall_WB_w | stall_by_dcache_w | stall_by_icache_w)),
 		.reset_i(Flush_WB_w),
@@ -186,14 +194,15 @@ module riscv_cache(
 		.rsW_wb_o(rsW_wb_w),
 		.inst_wb_o(inst_wb_w),
 		.stall_by_dcache_o(stall_by_dcache_w),
-		.no_acc_o(dcache_no_acc_w),
-		.no_hit_o(dcache_no_hit_w),
-		.no_miss_o(dcache_no_miss_w),
+//		.no_acc_o(dcache_no_acc_w),
+//		.no_hit_o(dcache_no_hit_w),
+//		.no_miss_o(dcache_no_miss_w),
 		.mem_addr_o(dmem_addr_o),
 	    .mem_wdata_o(dmem_wdata_o),
 	    .mem_we_o(dmem_we_o),
 	    .mem_cs_o(dmem_cs_o),
-	    .mem_rdata_i(dmem_rdata_i)
+	    .mem_rdata_i(dmem_rdata_i),
+	    .mem_rvalid_i(dmem_rvalid_i)
 		);
 		
 	WB WB(
@@ -248,13 +257,30 @@ module riscv_cache(
 		.alu_pc_o(alu_pc_w)
 		);
 		
-	
+	arbiter arbiter_inst (
+	.clk_i      (clk_i),
+	.rst_ni     (rst_ni),
+    .i_addr_i   (imem_addr_o),
+    .i_cs_i     (imem_cs_o),
+    .i_wdata_i  (imem_wdata_o),
+    .i_we_i     (imem_we_o),
+    .i_rdata_o  (imem_rdata_i),
+    .i_rvalid_o (imem_rvalid_i),
+    .d_addr_i   (dmem_addr_o),
+    .d_cs_i     (dmem_cs_o),
+    .d_wdata_i  (dmem_wdata_o),
+    .d_we_i     (dmem_we_o),
+    .d_rdata_o  (dmem_rdata_i),  
+    .d_rvalid_o (dmem_rvalid_i), 
+    .addr_o     (addr_o),
+    .wdata_o    (wdata_o),
+    .we_o       (we_o),
+    .cs_o       (cs_o),
+    .rdata_i    (rdata_i),
+    .rvalid_i   (rvalid_i),
+    .handshaked_i(handshaked_i)
+    );
 endmodule
-
-
-
-
-
 
 
 

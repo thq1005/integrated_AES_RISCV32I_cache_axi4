@@ -1,5 +1,5 @@
-import cache_def::*;
 
+import cache_def::*;
 module i_cache(
     input logic clk_i,
     input logic rst_ni,
@@ -7,12 +7,12 @@ module i_cache(
     input mem_data_type mem_data_i,
     output cpu_result_type cpu_res_o,
     output mem_req_type mem_req_o,
-    output logic [31:0] no_acc_o,
-    output logic [31:0] no_hit_o,
-    output logic [31:0] no_miss_o,
+//    output logic [31:0] no_acc_o,
+//    output logic [31:0] no_hit_o,
+//    output logic [31:0] no_miss_o,
     output logic accessing_o
 );
-
+    
     /* signal enable lru load */
     logic lru_valid;
 
@@ -77,9 +77,9 @@ module i_cache(
         .data_req_o(data_req),
         .cpu_res_o(cpu_res_o),
         .mem_req_o(mem_req_o),
-        .no_acc_o(no_acc_o),
-        .no_hit_o(no_hit_o),
-        .no_miss_o(no_miss_o),
+//        .no_acc_o(no_acc_o),
+//        .no_hit_o(no_hit_o),
+//        .no_miss_o(no_miss_o),
         .lru_valid_o(lru_valid),
         .accessing_o(accessing_o)
     );

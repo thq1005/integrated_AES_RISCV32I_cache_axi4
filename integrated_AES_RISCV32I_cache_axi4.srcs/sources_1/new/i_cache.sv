@@ -1,4 +1,3 @@
-
 import cache_def::*;
 module i_cache(
     input logic clk_i,

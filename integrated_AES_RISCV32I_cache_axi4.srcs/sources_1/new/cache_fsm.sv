@@ -1,6 +1,4 @@
 /* cache finite state machine */
-import cache_def::*;
-
 module cache_fsm(
     input logic clk_i,
     input logic rst_ni,

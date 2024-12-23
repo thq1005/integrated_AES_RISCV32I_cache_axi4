@@ -43,8 +43,6 @@ module MEM(
 	logic [31:0] inst_r;
 
 	/* valid signal that memory response to cache */
-
-	import cache_def::*;
 	cpu_req_type cpu_req_w;
 	cpu_result_type cpu_result_w;
 	mem_req_type mem_req_w;

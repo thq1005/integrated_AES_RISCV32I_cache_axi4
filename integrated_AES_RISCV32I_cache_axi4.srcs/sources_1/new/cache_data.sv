@@ -1,5 +1,4 @@
 /* cache: data memory, single port, 1024 blocks */
-import cache_def::*;
 module cache_data(
     input logic clk_i,
     input cache_req_type data_req_i,

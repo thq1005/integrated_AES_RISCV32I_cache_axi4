@@ -1,5 +1,3 @@
-import cache_def::*;
-
 module cache_pLRU(
     input logic clk_i,
     input logic rst_ni,

@@ -1,6 +1,4 @@
 /* cache: tag memory, single port, 1024 blocks */
-import cache_def::*;
-
 module cache_tag(
     input logic clk_i,
     input cache_req_type tag_req_i,

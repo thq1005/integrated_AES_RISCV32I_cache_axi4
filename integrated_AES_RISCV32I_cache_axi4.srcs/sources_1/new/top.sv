@@ -1,8 +1,9 @@
 `include "define.sv" 
 module top(
-    input logic clk_1_i,
-    input logic rst_ni,
-    input logic clk_2_i
+    input logic ACLK_1,
+    input logic ARESETn_1,
+    input logic ACLK_2,
+    input logic ARESETn_2
     );
     
     
@@ -78,8 +79,8 @@ module top(
 
     
     master_0_cpu_mem m0_inst (
-        .clk_i      (clk_1_i),
-        .rst_ni     (rst_ni),
+        .clk_i      (ACLK_1),
+        .rst_ni     (ARESETn_1),
         .awid       (m0_awid),
         .awaddr     (m0_awaddr),
         .awlen      (m0_awlen),
@@ -112,8 +113,8 @@ module top(
         );
         
     slave_0_sdram s0_inst (
-        .clk_i      (clk_2_i),
-        .rst_ni     (rst_ni),
+        .clk_i      (ACLK_2),
+        .rst_ni     (ARESETn_2),
         .awid       (s0_awid),
         .awaddr     (s0_awaddr),
         .awlen      (s0_awlen),
@@ -146,7 +147,11 @@ module top(
     );
     
     
-    axi_bus bus (
+    Asynchronous_AXI_to_AXI_Bridge bridge (
+        .ACLK_m        (ACLK_1),
+        .ARESETn_m     (ARESETn_1),
+        .ACLK_s        (ACLK_2),
+        .ARESETn_s     (ARESETn_2),
         //m0
         .m0_awid       (m0_awid),
         .m0_awaddr     (m0_awaddr),

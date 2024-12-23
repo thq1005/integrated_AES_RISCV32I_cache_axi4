@@ -1,3 +1,4 @@
+import cache_def::*;
 module IF(
 	input logic clk_i,
 	input logic rst_ni,
@@ -28,7 +29,7 @@ module IF(
 	input logic mem_rvalid_i
 	);
 	
-    import cache_def::*;
+    
 	logic [31:0] PC_mux_w, PC_mux1_w;
 	logic [31:0] PC_w, inst_w, PC_add4_w;
 	logic [31:0] PC_r, inst_r, PC_add4_r;

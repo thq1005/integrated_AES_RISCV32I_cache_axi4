@@ -1,3 +1,5 @@
+`ifndef cache_def
+`define cache_def
 package cache_def;
     // data structure for cache tag and data
 
@@ -62,3 +64,4 @@ package cache_def;
     } mem_data_type;
 
 endpackage
+`endif

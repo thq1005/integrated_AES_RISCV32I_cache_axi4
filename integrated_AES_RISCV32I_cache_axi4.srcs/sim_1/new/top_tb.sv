@@ -1,21 +1,26 @@
 `timescale 1ns / 1ps
 module top_tb;
-    logic clk_1_i;
-    logic clk_2_i;
-    logic rst_ni;
+    logic ACLK_1;
+    logic ACLK_2;
+    logic ARESETn_1;
+    logic ARESETn_2;
+
     
-    top top_inst (.clk_1_i (clk_1_i),
-                  .clk_2_i (clk_2_i),
-                  .rst_ni  (rst_ni));
+    top top_inst (.ACLK_1     (ACLK_1),
+                  .ACLK_2     (ACLK_2),
+                  .ARESETn_1  (ARESETn_1),
+                  .ARESETn_2  (ARESETn_2));
     
-    always #5 clk_1_i = ~clk_1_i;
-    always #7 clk_2_i = ~clk_2_i;
+    always #5 ACLK_1 = ~ACLK_1;
+    always #10 ACLK_2 = ~ACLK_2;
     
     initial begin
-        clk_1_i = 0;
-        clk_2_i = 0;
-        rst_ni  = 0;
-        #20;
-        rst_ni  = 1;
+        ACLK_1 = 0;
+        ACLK_2 = 0;
+        ARESETn_1  = 0;
+        ARESETn_2  = 0;
+        #27;
+        ARESETn_1  = 1;
+        ARESETn_2  = 1;
     end
 endmodule

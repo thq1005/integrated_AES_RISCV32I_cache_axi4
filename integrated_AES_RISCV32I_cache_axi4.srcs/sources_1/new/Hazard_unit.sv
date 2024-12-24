@@ -34,7 +34,7 @@ module Hazard_unit(
 	logic lwStall;
 	assign lwStall = ((RegWEn_mem_i) & (inst_mem_i[11:7] != 5'b0) & 
 						  ((inst_ex_i[19:15] == inst_mem_i[11:7]) | (inst_ex_i[24:20] == inst_mem_i[11:7])) &
-						  (inst_mem_i[6:0] == `OP_Itype_load)) ? 1'b1 : 1'b0;
+						  (inst_mem_i[6:0] == `OP_Itype_load | inst_mem_i[6:0] == `OP_AES_Itype)) ? 1'b1 : 1'b0;
 
 
 	/* adding logic in order to fix case (addi x31, x0, 2047; lw x13, 1281(x31); sw x13, 1057(x31) => hazard in 3 instructions and have a lw) */
@@ -44,7 +44,7 @@ module Hazard_unit(
 	assign lwStall_1 = ((RegWEn_mem_i) & (inst_mem_i[11:7] != 5'b0) & 
 						  ((inst_d_i[19:15] == inst_mem_i[11:7]) | (inst_d_i[24:20] == inst_mem_i[11:7])) &
 						  ((inst_d_i[19:15] == inst_ex_i[11:7]) | (inst_d_i[24:20] == inst_ex_i[11:7])) &
-						  (inst_ex_i[6:0] == `OP_Itype_load)) ? 1'b1 : 1'b0;
+						  (inst_ex_i[6:0] == `OP_Itype_load | inst_mem_i[6:0] == `OP_AES_Itype)) ? 1'b1 : 1'b0;
 
 	/* ------------------ */
 						  

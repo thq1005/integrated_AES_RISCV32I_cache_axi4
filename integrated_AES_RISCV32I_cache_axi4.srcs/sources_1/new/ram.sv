@@ -33,7 +33,7 @@ module ram(
 	logic [31:0] dmem [512]; 
 	
 	initial begin
-		$readmemh("imemfile.mem", imem); 
+		$readmemh("dmemfile.mem", dmem); 
 	end
 
 	

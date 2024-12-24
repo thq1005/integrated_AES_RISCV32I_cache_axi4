@@ -22,6 +22,7 @@ module EX(
 	input logic reset_i,
 	/* valid signal when CPU access cache */
 	input logic Valid_cpu2cache_ex_i,
+	input logic Valid_cpu2aes_ex_i,
 	output logic [31:0] alu_mem_o,
 	output logic [31:0] rs2_mem_o,
 	output logic [31:0] pc4_mem_o,
@@ -34,7 +35,8 @@ module EX(
 	output logic [31:0] inst_mem_o,
 	output logic [31:0] alu_o,
 	/* valid signal when CPU access cache */
-	output logic Valid_cpu2cache_mem_o
+	output logic Valid_cpu2cache_mem_o,
+	output logic Valid_cpu2aes_mem_o,
 	);
 	
 	logic [31:0] alu_w;
@@ -51,7 +53,8 @@ module EX(
 
 	/* valid signal when CPU access cache */
 	logic Valid_cpu2cache_r;
-	
+	logic Valid_cpu2aes_r;
+
 	brcomp BrComp_EX(
 		.rs1_i(rs1_ex_w),
 		.rs2_i(rs2_ex_w),
@@ -113,6 +116,7 @@ module EX(
 			rsW_r <= 5'b0;
 			inst_r <= 32'b0;
 			Valid_cpu2cache_r <= 1'b0;
+			Valid_cpu2aes_r   <= 1'b0;
 		end
 		else if (enable_i) begin
 			if (reset_i) begin
@@ -127,6 +131,7 @@ module EX(
 				rsW_r <= 5'b0;
 				inst_r <= 32'b0;
 				Valid_cpu2cache_r <= 1'b0;
+				Valid_cpu2aes_r   <= 1'b0;
 			end
 			else begin
 				alu_r <= alu_w;
@@ -140,6 +145,7 @@ module EX(
 				rsW_r <= rsW_ex_i;
 				inst_r <= inst_ex_i;
 				Valid_cpu2cache_r <= Valid_cpu2cache_ex_i;
+				Valid_cpu2aes_r   <= Valid_cpu2aes_ex_i;
 			end
 		end
 	end
@@ -160,5 +166,6 @@ module EX(
 	/* fixing */
 	//assign Valid_cpu2cache_mem_o = Valid_cpu2cache_ex_i;
 	assign Valid_cpu2cache_mem_o = Valid_cpu2cache_r;
+	assign Valid_cpu2aes_mem_o = Valid_cpu2aes_r;
 	
 endmodule

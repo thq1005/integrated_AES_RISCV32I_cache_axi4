@@ -2,13 +2,21 @@
 module riscv_cache(
 	input logic clk_i,
 	input logic rst_ni,
+	//to mem
     output logic [`ADDR_WIDTH-1:0] addr_o,
     output logic [`DATA_WIDTH_CACHE-1:0] wdata_o,
     output logic we_o,
     output logic cs_o,
     input logic [`DATA_WIDTH_CACHE-1:0] rdata_i,
     input logic rvalid_i,
-    input logic handshaked_i
+    input logic handshaked_i,
+	//to aes
+	output logic [`ADDR_WIDTH-1:0] aes_addr_o,
+	output logic [`DATA_WIDTH-1:0] aes_wdata_o,
+	output logic aes_we_o,
+	output logic aes_cs_o,
+	input logic [`DATA_WIDTH-1:0] aes_rdata_i,
+	input logic aes_rvalid_i
 	);
 	
 	logic BrEq_w, BrLt_w, RegWEn_w;

@@ -31,11 +31,24 @@ module MEM(
 	output logic mem_we_o,
 	output logic mem_cs_o,
 	input logic  [127:0] mem_rdata_i,
-	input logic  mem_rvalid_i
+	input logic  mem_rvalid_i,
+
+
+	output logic [31:0] aes_addr_o,
+	output logic [127:0] aes_wdata_o,
+	output logic aes_we_o,
+	output logic aes_cs_o,
+	input logic  [127:0] aes_rdata_i,
+	input logic  aes_rvalid_i,
+
+	input logic Valid_cpu2aes_mem_i,
+	output logic stall_by_aes,
+	output logic aes_result_o
 	);
 	
 	logic [31:0] mem_w;
-	
+	logic [31:0] aes_result_w;
+	logic [31:0] aes_result_r;
 	logic [31:0] alu_r, pc4_r, mem_r;
 	logic [1:0] WBSel_r;
 	logic RegWEn_r;
@@ -80,6 +93,7 @@ module MEM(
 			RegWEn_r <= 1'b0;
 			rsW_r <= 5'b0;
 			inst_r <= 32'b0;
+			aes_result_r <= 32'b0;
 		end
 		else if (enable_i) begin
 			if (reset_i) begin
@@ -90,6 +104,7 @@ module MEM(
 				RegWEn_r <= 1'b0;
 				rsW_r <= 5'b0;
 				inst_r <= 32'b0;
+				aes_result_r <= 32'b0;
 			end
 			else begin
 				alu_r <= alu_mem_i;
@@ -99,6 +114,7 @@ module MEM(
 				RegWEn_r <= RegWEn_mem_i;
 				rsW_r <= rsW_mem_i;
 				inst_r <= inst_mem_i;
+				aes_result_r <= aes_result_w;
 			end
 		end
 	end
@@ -110,7 +126,7 @@ module MEM(
 	assign RegWEn_wb_o = RegWEn_r;
 	assign rsW_wb_o = rsW_r;
 	assign inst_wb_o = inst_r;
-
+	assign aes_result_o = aes_result_r;
 	/* connect signals for cache */
 	//assign cpu_req_w = {alu_mem_i, rs2_mem_i, MemRW_mem_i, Valid_cpu2cache_mem_i};
 	assign cpu_req_w.addr = alu_mem_i;
@@ -124,5 +140,11 @@ module MEM(
 	/* control stall for previous stages */
 	assign stall_by_dcache_o = (Valid_cpu2cache_mem_i&(~cpu_result_w.ready)) ? 1'b1 : 1'b0;
 	
-
+	//for aes
+	assign aes_addr_o  = alu_mem_i;
+	assign aes_wdata_o = rs2_mem_i;
+	assign aes_we_o	   = MemRW_mem_i;
+	assign aes_cs_o	   = Valid_cpu2aes_mem_i & (~stall_by_icache_i);
+	assign aes_result_w = aes_rdata_i; 
+	assign stall_by_aes = (Valid_cpu2aes_mem_i&(~aes_rvalid_i)) ? 1'b1 : 1'b0;;
 endmodule

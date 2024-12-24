@@ -26,7 +26,8 @@ module ID(
 	output logic [31:0] inst_ex_o,
 	output logic hit_ex_o,
 	/* valid signal when CPU access cache */
-	output logic Valid_cpu2cache_ex_o
+	output logic Valid_cpu2cache_ex_o,
+	output logic Valid_cpu2aes_ex_o
 	);
 	
 	logic [31:0] rs1_w, rs2_w, imm_w;
@@ -49,7 +50,10 @@ module ID(
 	/* valid signal when CPU access cache */
 	logic Valid_cpu2cache_w;
 	logic Valid_cpu2cache_r;
+	logic Valid_cpu2aes_w;
+	logic Valid_cpu2aes_r;
 	
+
 	regfile RF_ID(
 		.dataW_i(data_wb_i),
 		.rsW_i(rsW_i), //inst_d_i[11:7]
@@ -80,7 +84,8 @@ module ID(
 		.Asel_o(ASel_w),
 		//.Mul_ext_o(Mul_ext_w)
 		/* valid signal when CPU access cache */
-		.Valid_cpu2cache_o(Valid_cpu2cache_w)
+		.Valid_cpu2cache_o(Valid_cpu2cache_w),
+		.Valid_cpu2aes_o (Valid_cpu2aes_w)
 		);
 		
 		
@@ -102,6 +107,7 @@ module ID(
 			inst_r <= 32'b0;
 			hit_r <= 1'b0;
 			Valid_cpu2cache_r <= 1'b0;
+			Valid_cpu2aes_r   <= 1'b0;
 		end
 		else if (enable_i) begin 
 			if (reset_i) begin
@@ -121,6 +127,7 @@ module ID(
 				inst_r <= 32'b0;
 				hit_r <= 1'b0;
 				Valid_cpu2cache_r <= 1'b0;
+				Valid_cpu2aes_r   <= 1'b0;
 			end
 			else begin
 				rs1_r <= rs1_w;
@@ -138,7 +145,8 @@ module ID(
 				rsW_r <= inst_d_i[11:7];
 				inst_r <= inst_d_i;
 				hit_r <= hit_d_i;
-				Valid_cpu2cache_r <=  Valid_cpu2cache_w;
+				Valid_cpu2cache_r <= Valid_cpu2cache_w;
+				Valid_cpu2aes_r   <= Valid_cpu2aes_w;
 			end
 		end
 	end
@@ -159,5 +167,6 @@ module ID(
 	assign inst_ex_o = inst_r;
 	assign hit_ex_o = hit_r;
 	assign Valid_cpu2cache_ex_o = Valid_cpu2cache_r;
-	
+	assign Valid_cpu2aes_ex_o	= Valid_cpu2aes_r;
+
 endmodule

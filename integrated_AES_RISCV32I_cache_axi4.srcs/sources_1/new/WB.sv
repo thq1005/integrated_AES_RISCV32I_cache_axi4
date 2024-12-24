@@ -4,17 +4,13 @@ module WB(
 	input logic [31:0] alu_wb_i,
 	input logic [31:0] pc4_wb_i,
 	input logic [31:0] mem_wb_i,
+	input logic [31:0] aes_result_i;
 	input logic [1:0] WBSel_wb_i,
 	output logic [31:0] dataWB_o
 	);
-
-	mux3to1_32bit Mux_WB(
-			.a_i(mem_wb_i),
-			.b_i(alu_wb_i),
-			.c_i(pc4_wb_i),
-			.se_i(WBSel_wb_i),
-			.r_o(dataWB_o)
-			);
 		
+assign dataWB_o = (WBSel_wb_i == 00) ? mem_wb_i :
+				  (WBSel_wb_i == 01) ? alu_wb_i :
+				  (WBSel_wb_i == 10) ? pc4_wb_i : aes_result_i;
 
 endmodule

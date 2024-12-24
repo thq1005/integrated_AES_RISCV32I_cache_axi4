@@ -54,9 +54,15 @@ module riscv_cache(
 	/* valid signal when CPU access cache */
 	logic Valid_cpu2cache_ex_w;
 	logic Valid_cpu2cache_mem_w;
+	//aes
+	logic Valid_cpu2aes_ex_w;
+	logic Valid_cpu2aes_mem_w;
 
+	logic stall_by_aes_w;
 	logic stall_by_dcache_w;
 	logic stall_by_icache_w;
+
+	logic aes_result_w;
     
     logic [31:0] dmem_addr_o;
 	logic [127:0] dmem_wdata_o;
@@ -88,8 +94,8 @@ module riscv_cache(
 		.rst_ni(rst_ni),
 		.hit_i(hit_w),
 		.predicted_pc_i(predicted_pc_w),
-		.enable_pc_i(~(Stall_IF_w | stall_by_dcache_w | stall_by_icache_w)),
-		.enable_i(~(Stall_ID_w | stall_by_dcache_w  | stall_by_icache_w)),
+		.enable_pc_i(~(Stall_IF_w | stall_by_dcache_w | stall_by_icache_w | stall_by_aes_w)),
+		.enable_i(~(Stall_ID_w | stall_by_dcache_w  | stall_by_icache_w | stall_by_aes_w)),
 		.reset_i(Flush_ID_w),
 		.mispredicted_pc_i(pc4_ex_w),
 		.wrong_predicted_i(wrong_predicted_w),
@@ -121,7 +127,7 @@ module riscv_cache(
 		.pc4_d_i(pc4_d_w),
 		.RegWEn_i(RegWEn_wb_w),
 		.rsW_i(rsW_wb_w),
-		.enable_i(~(Stall_EX_w | stall_by_dcache_w  | stall_by_icache_w)),
+		.enable_i(~(Stall_EX_w | stall_by_dcache_w  | stall_by_icache_w | stall_by_aes_w)),
 		.reset_i(Flush_EX_w),
 		.hit_d_i(hit_d_w),
 		.rs1_ex_o(rs1_ex_w),
@@ -139,7 +145,8 @@ module riscv_cache(
 		.rsW_ex_o(rsW_ex_w),
 		.inst_ex_o(inst_ex_w),
 		.hit_ex_o(hit_ex_w),
-		.Valid_cpu2cache_ex_o(Valid_cpu2cache_ex_w)
+		.Valid_cpu2cache_ex_o(Valid_cpu2cache_ex_w),
+		.Valid_cpu2aes_ex_o  (Valid_cpu2aes_ex_w)
 		);
 		
 	EX EX(
@@ -162,7 +169,7 @@ module riscv_cache(
 		.Bsel_haz_i(Bsel_haz_w),
 		.inst_ex_i(inst_ex_w),
 		.data_wb_i(data_wb_w),
-		.enable_i(~(Stall_MEM_w | stall_by_dcache_w  | stall_by_icache_w)),
+		.enable_i(~(Stall_MEM_w | stall_by_dcache_w  | stall_by_icache_w | stall_by_aes_w)),
 		.reset_i(Flush_MEM_w),
 		.Valid_cpu2cache_ex_i(Valid_cpu2cache_ex_w),
 		.alu_mem_o(alu_mem_w),
@@ -176,7 +183,8 @@ module riscv_cache(
 		.rsW_mem_o(rsW_mem_w),
 		.inst_mem_o(inst_mem_w),
 		.alu_o(alu_w),
-		.Valid_cpu2cache_mem_o(Valid_cpu2cache_mem_w)
+		.Valid_cpu2cache_mem_o(Valid_cpu2cache_mem_w),
+		.Valid_cpu2aes_mem_o  (Valid_cpu2aes_mem_w)
 		);
 		
 	MEM MEM(
@@ -190,9 +198,10 @@ module riscv_cache(
 		.RegWEn_mem_i(RegWEn_mem_w),
 		.rsW_mem_i(rsW_mem_w),
 		.inst_mem_i(inst_mem_w),
-		.enable_i(~(Stall_WB_w | stall_by_dcache_w | stall_by_icache_w)),
+		.enable_i(~(Stall_WB_w | stall_by_dcache_w | stall_by_icache_w | stall_by_aes_w)),
 		.reset_i(Flush_WB_w),
 		.Valid_cpu2cache_mem_i(Valid_cpu2cache_mem_w),
+		.Valid_cpu2aes_mem_i(Valid_cpu2aes_mem_w),
 		.stall_by_icache_i(stall_by_icache_w),
 		.alu_wb_o(alu_wb_w),
 		.pc4_wb_o(pc4_wb_w),
@@ -210,7 +219,15 @@ module riscv_cache(
 	    .mem_we_o(dmem_we_o),
 	    .mem_cs_o(dmem_cs_o),
 	    .mem_rdata_i(dmem_rdata_i),
-	    .mem_rvalid_i(dmem_rvalid_i)
+	    .mem_rvalid_i(dmem_rvalid_i),
+		.aes_addr_o(aes_addr_o),
+		.aes_wdata_o(aes_wdata_o),
+		.aes_we_o(aes_we_o),
+		.aes_cs_o(aes_cs_o),
+		.aes_rdata_i(aes_rdata_i),
+		.aes_rvalid_i(aes_rvalid_i),
+		.stall_by_aes(stall_by_aes_w),
+		.aes_result_o(aes_result_w)
 		);
 		
 	WB WB(
@@ -219,6 +236,7 @@ module riscv_cache(
 		.alu_wb_i(alu_wb_w),
 		.pc4_wb_i(pc4_wb_w),
 		.mem_wb_i(mem_wb_w),
+		.aes_result_i (aes_result_w),
 		.WBSel_wb_i(WBSel_wb_w),
 		//.RegWEn_wb_i(RegWEn_wb_w),
 		//.rsW_wb_i(rsW_wb_w),

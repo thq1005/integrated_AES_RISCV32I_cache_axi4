@@ -36,7 +36,7 @@ module EX(
 	output logic [31:0] alu_o,
 	/* valid signal when CPU access cache */
 	output logic Valid_cpu2cache_mem_o,
-	output logic Valid_cpu2aes_mem_o,
+	output logic Valid_cpu2aes_mem_o
 	);
 	
 	logic [31:0] alu_w;

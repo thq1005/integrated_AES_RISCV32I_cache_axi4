@@ -46,8 +46,7 @@ module ctrl_unit(
 						((opcode_r == `OP_AES_Stype) && (funct3 == `BLOCK))									? `AES_BLOCK_TYPE :
 						((opcode_r == `OP_AES_Stype) && (funct3 == `KEY))									? `AES_KEY_TYPE :
 						((opcode_r == `OP_AES_Stype) && (funct3 == `CTRL))									? `AES_CTRL_TYPE :
-						((opcode_r == `OP_AES_Stype) && (funct3 == `CONFI))									? `AES_CONFIG_TYPE :
-						;
+						((opcode_r == `OP_AES_Stype) && (funct3 == `CONFI))									? `AES_CONFIG_TYPE : 4'b1111;
 	
 	assign MemRW_o = ((opcode_r == `OP_Stype) | (opcode_r == `OP_AES_Stype)) ? 1'b1 : 1'b0;
 	

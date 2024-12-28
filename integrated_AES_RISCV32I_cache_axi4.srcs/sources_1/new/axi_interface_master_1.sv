@@ -124,7 +124,7 @@ module axi_interface_master_1(
         if (!rst_ni) begin
             awaddr_o <= 0;
             wstrb_o  <= 0;
-            wdata_0  <= 0;
+            wdata_o  <= 0;
             araddr_o <= 0;
         end else if (state == IDLE) begin
             awaddr_o <= addr_i;

@@ -12,7 +12,7 @@ module ctrl_unit(
 	//output logic Mul_ext_o
 	/* valid signal when CPU access cache */
 	output logic Valid_cpu2cache_o,
-	output logic Valid_cpu2_aes_o
+	output logic Valid_cpu2aes_o
 	);
 
 	logic [6:0] opcode_r;

@@ -175,13 +175,13 @@ axi_interface_master_1 m1_itf (
     .cs_o    (mem_cs_w),
     .rdata_i (mem_rdata_w),
     .rvalid_i(mem_rvalid_w),
-    .handshaked_i(handshaked_w),
+    .handshaked_i(mem_handshaked_w),
     .aes_addr_o  (aes_addr_w),
     .aes_wdata_o (aes_wdata_w),
     .aes_we_o    (aes_we_w),
     .aes_cs_o    (aes_cs_w),
     .aes_rdata_i (aes_rdata_w),
-    .aes_rvalid_i(aes_rvalid_w),
+    .aes_rvalid_i(aes_rvalid_w)
     );
     
     

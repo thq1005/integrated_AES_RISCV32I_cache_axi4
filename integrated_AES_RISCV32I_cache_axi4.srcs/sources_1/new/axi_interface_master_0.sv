@@ -106,7 +106,7 @@ module axi_interface_master_0(
             len_cnt = 0;
         end
         else if (state == IDLE) begin
-            len_cnt = 3;
+            len_cnt = 0;
         end
         else if (state == W | state == R) begin
             if ((wvalid_o && wready_i) | (rvalid_i && rready_o))
@@ -116,13 +116,13 @@ module axi_interface_master_0(
     
     
     always_comb begin
-        if (len_cnt == 3) 
+        if (len_cnt == 0) 
             wdata_o = wdata_i[127:96];
-        else if (len_cnt == 2) 
+        else if (len_cnt == 3) 
             wdata_o = wdata_i[95:64];
-        else if (len_cnt == 1) 
+        else if (len_cnt == 2) 
             wdata_o = wdata_i[63:32];
-        else if (len_cnt == 0)
+        else if (len_cnt == 1)
             wdata_o = wdata_i[31:0];
     end
     
@@ -132,13 +132,13 @@ module axi_interface_master_0(
         else if (state == R) begin
             if (rvalid_i && rready_o) begin
                 if (len_cnt == 3) 
-                    rdata_o[127:96] = rdata_i;
-                else if (len_cnt == 2) 
-                    rdata_o[95:64] = rdata_i;
-                else if (len_cnt == 1) 
-                    rdata_o[63:32] = rdata_i;
-                else if (len_cnt == 0) begin
                     rdata_o[31:0] = rdata_i;
+                else if (len_cnt == 2) 
+                    rdata_o[63:32] = rdata_i;
+                else if (len_cnt == 1) 
+                    rdata_o[95:64] = rdata_i;
+                else if (len_cnt == 0) begin
+                    rdata_o[127:96] = rdata_i;
                 end
             end 
         end
@@ -150,7 +150,7 @@ module axi_interface_master_0(
         if (!rst_ni) begin
             rvalid_o = 0;
         end 
-        else if (rlast_i) 
+        else if (rlast_i && rvalid_i) 
             rvalid_o = 1;
         else 
             rvalid_o = 0;
@@ -187,7 +187,7 @@ module axi_interface_master_0(
     assign awburst_o = 1;
     assign awvalid_o = (state == WA);
     
-    assign wlast_o  = ((state == W) && (len_cnt == 0));
+    assign wlast_o  = ((state == W) && (len_cnt == 1));
     assign wvalid_o = (state == W);
     assign bready_o = (state == B);
                  

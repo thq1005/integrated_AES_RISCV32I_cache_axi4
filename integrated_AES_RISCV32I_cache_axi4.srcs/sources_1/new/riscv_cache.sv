@@ -19,7 +19,7 @@ module riscv_cache(
 	input logic aes_rvalid_i
 	);
 	
-	logic BrEq_w, BrLt_w, RegWEn_w;
+	logic BrEq_w, BrLt_w;
 	logic [4:0] rsW_w;
 	logic [31:0] alu_mem_w, pc_d_w, inst_d_w, pc4_d_w, data_wb_w;
 	logic hit_d_w;
@@ -172,6 +172,7 @@ module riscv_cache(
 		.enable_i(~(Stall_MEM_w | stall_by_dcache_w  | stall_by_icache_w | stall_by_aes_w)),
 		.reset_i(Flush_MEM_w),
 		.Valid_cpu2cache_ex_i(Valid_cpu2cache_ex_w),
+		.Valid_cpu2aes_ex_i (Valid_cpu2aes_ex_w),
 		.alu_mem_o(alu_mem_w),
 		.rs2_mem_o(rs2_mem_w),
 		.pc4_mem_o(pc4_mem_w),

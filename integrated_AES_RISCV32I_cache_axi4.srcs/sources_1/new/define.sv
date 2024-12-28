@@ -60,13 +60,8 @@
 
 //cache         |       tag       |  index  | offset |
 //              31               7 6       4 3       0 
-`define TAGMSB            31
-`define TAGLSB            7
-`define INDEX             3
-`define DEPTH             8
-`define WAYS              4
 `define DATA_WIDTH_CACHE  128
-`define INDEX_WAY         2
+
 
 //MEM
 `define DATA_WIDTH     32

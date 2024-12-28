@@ -264,11 +264,11 @@ module cache_fsm(
                 v_mem_req.rw = '0;
                 /* -------- */
                     
-                if (cpu_req_i.rw == 1'b0) v_mem_req.valid = '1;
-                else v_mem_req.valid = 1'b0;
+                v_mem_req.valid = '1;
+                
 
                 /* memory controller has responded */
-                if (mem_data_i.ready | (cpu_req_i.rw == 1'b1)) begin
+                if (mem_data_i.ready) begin
                     if (cpu_req_i.rw == 1'b0)
                         data_write = mem_data_i.data;
                     
@@ -291,15 +291,15 @@ module cache_fsm(
                 /* logic for fixing bottom lines code situation */
                 v_mem_req.addr = address_wb;
                 /* -------- */
-
+                vstate = ALLOCATE;
                 /* write back is completed */
-                if (mem_data_i.ready) begin
-                    /* issue new memory request (allocating a new line) */
-                    v_mem_req.valid = '1;
-                    //v_mem_req.rw = '0;
+                // if (mem_data_i.ready) begin
+                //     /* issue new memory request (allocating a new line) */
+                //     v_mem_req.valid = '1;
+                //     //v_mem_req.rw = '0;
 
-                    vstate = ALLOCATE;
-                end
+                //     vstate = ALLOCATE;
+                // end
             end
         endcase
     end
@@ -318,7 +318,6 @@ module cache_fsm(
     assign data_req_o = data_req;
     assign lru_valid_o = lru_valid;
 
-    /* fix case address request for L2 cache being changed when transfer to Writeback state */
     always_ff @(posedge clk_i, negedge rst_ni) begin
         if (~rst_ni)
             address_wb <= 32'b0;

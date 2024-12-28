@@ -2,7 +2,8 @@
 `define cache_def
 package cache_def;
     // data structure for cache tag and data
-
+    //cache         |       tag       |  index  | offset |
+    //              31               6 5       4 3       0 
     parameter TAGMSB = 31; // tag msb
     parameter TAGLSB = 6; // tag lsb : 4 bits offset (2 bit byte offset, 2 bit for 4 word), 2 bit index
     parameter INDEX = 2; // No of block bits

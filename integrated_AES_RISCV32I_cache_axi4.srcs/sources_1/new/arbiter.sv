@@ -72,7 +72,7 @@ module arbiter(
             d_rvalid_o  = 0;
         end
         else if (state == D_CACHE) begin
-            addr_o   = {d_addr_i[31:4], 4'b0} + 512;
+            addr_o   = {d_addr_i[31:4], 4'b0} + 32'h00000800;
             wdata_o  = d_wdata_i;
             we_o     = d_we_i;
             cs_o     = (hs) ? 0 : 1;

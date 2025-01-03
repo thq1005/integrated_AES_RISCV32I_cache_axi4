@@ -49,9 +49,6 @@ module axi_interface_slave (
 );
 
 
-
-
-
 logic m_awvalid;
 logic m_awready;
 logic [`ADDR_WIDTH-1:0] m_awaddr;

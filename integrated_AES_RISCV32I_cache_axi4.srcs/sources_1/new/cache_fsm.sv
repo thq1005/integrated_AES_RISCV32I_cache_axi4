@@ -269,8 +269,7 @@ module cache_fsm(
 
                 /* memory controller has responded */
                 if (mem_data_i.ready) begin
-                    if (cpu_req_i.rw == 1'b0)
-                        data_write = mem_data_i.data;
+                    data_write = mem_data_i.data;
                     
                     //data_write = mem_data_i.data;
                     /* update cache line data */
@@ -305,7 +304,7 @@ module cache_fsm(
     end
 
 
-    always_ff @(posedge clk_i, negedge rst_ni) begin
+    always_ff @(posedge clk_i) begin
         if (~rst_ni)
             rstate <= IDLE;
         else
@@ -318,7 +317,7 @@ module cache_fsm(
     assign data_req_o = data_req;
     assign lru_valid_o = lru_valid;
 
-    always_ff @(posedge clk_i, negedge rst_ni) begin
+    always_ff @(posedge clk_i) begin
         if (~rst_ni)
             address_wb <= 32'b0;
         else if (rstate == COMPARE_TAG) 

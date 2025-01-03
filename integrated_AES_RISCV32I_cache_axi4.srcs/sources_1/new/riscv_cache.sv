@@ -16,7 +16,8 @@ module riscv_cache(
 	output logic aes_we_o,
 	output logic aes_cs_o,
 	input logic [`DATA_WIDTH-1:0] aes_rdata_i,
-	input logic aes_rvalid_i
+	input logic aes_rvalid_i,
+	input logic handshaked_1_i
 	);
 	
 	logic BrEq_w, BrLt_w;
@@ -62,7 +63,7 @@ module riscv_cache(
 	logic stall_by_dcache_w;
 	logic stall_by_icache_w;
 
-	logic aes_result_w;
+	logic [31:0] aes_result_w;
     
     logic [31:0] dmem_addr_o;
 	logic [127:0] dmem_wdata_o;
@@ -228,7 +229,8 @@ module riscv_cache(
 		.aes_rdata_i(aes_rdata_i),
 		.aes_rvalid_i(aes_rvalid_i),
 		.stall_by_aes(stall_by_aes_w),
-		.aes_result_o(aes_result_w)
+		.aes_result_o(aes_result_w),
+		.handshaked_i(handshaked_1_i)
 		);
 		
 	WB WB(
@@ -269,14 +271,14 @@ module riscv_cache(
 		);
 		
 	Branch_predictor BP(
-		.rst_ni(rst_ni),
-		.clk_i(clk_i),
-		.BrEq_i(BrEq_w),
-		.BrLt_i(BrLt_w),
-		.inst_ex_i(inst_ex_w),
-		.alu_i(alu_w),
-		.pc_i(pc_bp_w),
-		.pc_ex_i(pc_ex_w),
+		.rst_ni		(rst_ni),
+		.clk_i		(clk_i),
+		.BrEq_i		(BrEq_w),
+		.BrLt_i		(BrLt_w),
+		.inst_ex_i	(inst_ex_w),
+		.alu_i		(alu_w),
+		.pc_i		(pc_bp_w),
+		.pc_ex_i	(pc_ex_w),
 		.hit_ex_i(hit_ex_w),
 		.hit_o(hit_w),
 		.predicted_pc_o(predicted_pc_w),
@@ -285,27 +287,27 @@ module riscv_cache(
 		);
 		
 	arbiter arbiter_inst (
-	.clk_i      (clk_i),
-	.rst_ni     (rst_ni),
-    .i_addr_i   (imem_addr_o),
-    .i_cs_i     (imem_cs_o),
-    .i_wdata_i  (imem_wdata_o),
-    .i_we_i     (imem_we_o),
-    .i_rdata_o  (imem_rdata_i),
-    .i_rvalid_o (imem_rvalid_i),
-    .d_addr_i   (dmem_addr_o),
-    .d_cs_i     (dmem_cs_o),
-    .d_wdata_i  (dmem_wdata_o),
-    .d_we_i     (dmem_we_o),
-    .d_rdata_o  (dmem_rdata_i),  
-    .d_rvalid_o (dmem_rvalid_i), 
-    .addr_o     (addr_o),
-    .wdata_o    (wdata_o),
-    .we_o       (we_o),
-    .cs_o       (cs_o),
-    .rdata_i    (rdata_i),
-    .rvalid_i   (rvalid_i),
-    .handshaked_i(handshaked_i)
+		.clk_i       (clk_i),
+		.rst_ni      (rst_ni),
+		.i_addr_i    (imem_addr_o),
+		.i_cs_i      (imem_cs_o),
+		.i_wdata_i   (imem_wdata_o),
+		.i_we_i      (imem_we_o),
+		.i_rdata_o   (imem_rdata_i),
+		.i_rvalid_o  (imem_rvalid_i),
+		.d_addr_i    (dmem_addr_o),
+		.d_cs_i      (dmem_cs_o),
+		.d_wdata_i   (dmem_wdata_o),
+		.d_we_i      (dmem_we_o),
+		.d_rdata_o   (dmem_rdata_i),  
+		.d_rvalid_o  (dmem_rvalid_i), 
+		.addr_o      (addr_o),
+		.wdata_o     (wdata_o),
+		.we_o        (we_o),
+		.cs_o        (cs_o),
+		.rdata_i     (rdata_i),
+		.rvalid_i    (rvalid_i),
+		.handshaked_i(handshaked_i)
     );
 endmodule
 

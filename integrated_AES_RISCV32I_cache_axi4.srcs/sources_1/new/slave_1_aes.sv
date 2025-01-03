@@ -46,6 +46,7 @@ logic [(`DATA_WIDTH/8)-1:0] strb_w;
 logic re_w;
 logic [`ADDR_WIDTH-1:0] raddr_w;
 logic [`DATA_WIDTH-1:0] rdata_w;
+logic [`DATA_WIDTH-1:0] rdata_r;
 
 logic a_cs;
 logic a_we;
@@ -115,7 +116,14 @@ always_comb begin
 end
 
 always_comb begin
-    rdata_w = a_rdata;
+    rdata_w = rdata_r;
+end
+
+always_ff @(posedge clk_i) begin
+    if (!rst_ni)
+        rdata_r = 0;
+    else 
+        rdata_r = a_rdata;
 end
 
 aes aes_inst(

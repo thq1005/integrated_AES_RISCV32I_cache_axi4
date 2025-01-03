@@ -322,7 +322,6 @@ module Asynchronous_AXI_to_AXI_Bridge(
     logic aw_empty_1, aw_full_1;
 
 
-
     assign aw_full_1  = (aw_wptr_1 + 1 == aw_rptr_1);
     assign aw_empty_1 = (aw_wptr_1 == aw_rptr_1);
 

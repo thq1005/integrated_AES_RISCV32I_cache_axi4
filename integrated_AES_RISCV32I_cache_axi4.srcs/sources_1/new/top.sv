@@ -78,6 +78,77 @@ module top(
     logic s0_rready;
 
     
+    //signal of m1
+    logic [`ID_BITS - 1:0] m1_awid;
+    logic [`ADDR_WIDTH - 1:0] m1_awaddr;
+    logic [`LEN_BITS - 1:0] m1_awlen;
+    logic [`SIZE_BITS -1 :0] m1_awsize;
+    logic [1:0] m1_awburst;
+    logic m1_awvalid;
+    logic m1_awready;
+    //W channel
+    logic [`DATA_WIDTH - 1:0] m1_wdata;
+    logic [(`DATA_WIDTH/8)-1:0] m1_wstrb;
+    logic m1_wvalid;
+    logic m1_wlast;
+    logic m1_wready;
+    //B channel
+    logic [`ID_BITS - 1:0] m1_bid;
+    logic [2:0] m1_bresp;
+    logic m1_bvalid;
+    logic m1_bready;
+    //AR channel
+    logic [`ID_BITS - 1:0] m1_arid;
+    logic [`ADDR_WIDTH - 1:0] m1_araddr;
+    logic [`LEN_BITS - 1:0] m1_arlen;
+    logic [1:0] m1_arburst;
+    logic [`SIZE_BITS - 1:0] m1_arsize;
+    logic m1_arvalid;
+    logic m1_arready;
+    //R channel
+    logic [`ID_BITS - 1:0] m1_rid;
+    logic [`DATA_WIDTH - 1:0] m1_rdata;
+    logic [2:0] m1_rresp;
+    logic m1_rvalid;
+    logic m1_rlast;
+    logic m1_rready;
+
+    //signal of s1
+    logic [`ID_BITS - 1:0] s1_awid;
+    logic [`ADDR_WIDTH - 1:0] s1_awaddr;
+    logic [`LEN_BITS - 1:0] s1_awlen;
+    logic [`SIZE_BITS -1 :0] s1_awsize;
+    logic [1:0] s1_awburst;
+    logic s1_awvalid;
+    logic s1_awready;
+    //W channel
+    logic [`DATA_WIDTH - 1:0] s1_wdata;
+    logic [(`DATA_WIDTH/8)-1:0] s1_wstrb;
+    logic s1_wvalid;
+    logic s1_wlast;
+    logic s1_wready;
+    //B channel
+    logic [`ID_BITS - 1:0] s1_bid;
+    logic [2:0] s1_bresp;
+    logic s1_bvalid;
+    logic s1_bready;
+    //AR channel
+    logic [`ID_BITS - 1:0] s1_arid;
+    logic [`ADDR_WIDTH - 1:0] s1_araddr;
+    logic [`LEN_BITS - 1:0] s1_arlen;
+    logic [1:0] s1_arburst;
+    logic [`SIZE_BITS - 1:0] s1_arsize;
+    logic s1_arvalid;
+    logic s1_arready;
+    //R channel
+    logic [`ID_BITS - 1:0] s1_rid;
+    logic [`DATA_WIDTH - 1:0] s1_rdata;
+    logic [2:0] s1_rresp;
+    logic s1_rvalid;
+    logic s1_rlast;
+    logic s1_rready;
+
+
     master_cpu m_inst (
         .clk_i         (ACLK_1),
         .rst_ni        (ARESETn_1),

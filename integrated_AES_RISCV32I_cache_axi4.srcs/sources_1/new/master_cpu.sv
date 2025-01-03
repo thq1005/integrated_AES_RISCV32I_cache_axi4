@@ -83,7 +83,7 @@ module master_cpu(
     
     logic [`ADDR_WIDTH-1:0] aes_addr_w;
     logic [`DATA_WIDTH-1:0] aes_wdata_w, aes_rdata_w;
-    logic aes_we_w,aes_cs_w,aes_rvalid_w;
+    logic aes_we_w,aes_cs_w,aes_rvalid_w,aes_handshaked_w;
 
     axi_interface_master_0 m0_itf (
     .clk_i        (clk_i),
@@ -163,25 +163,27 @@ axi_interface_master_1 m1_itf (
     .we_i         (aes_we_w),
     .cs_i         (aes_cs_w),
     .rdata_o      (aes_rdata_w),
-    .rvalid_o     (aes_rvalid_w)
+    .rvalid_o     (aes_rvalid_w),
+    .handshaked_o (aes_handshaked_w)
     );
 
     riscv_cache cpu_inst (
-    .clk_i   (clk_i),
-    .rst_ni  (rst_ni),
-    .addr_o  (mem_addr_w),
-    .wdata_o (mem_wdata_w),
-    .we_o    (mem_we_w),
-    .cs_o    (mem_cs_w),
-    .rdata_i (mem_rdata_w),
-    .rvalid_i(mem_rvalid_w),
-    .handshaked_i(mem_handshaked_w),
-    .aes_addr_o  (aes_addr_w),
-    .aes_wdata_o (aes_wdata_w),
-    .aes_we_o    (aes_we_w),
-    .aes_cs_o    (aes_cs_w),
-    .aes_rdata_i (aes_rdata_w),
-    .aes_rvalid_i(aes_rvalid_w)
+    .clk_i          (clk_i),
+    .rst_ni         (rst_ni),
+    .addr_o         (mem_addr_w),
+    .wdata_o        (mem_wdata_w),
+    .we_o           (mem_we_w),
+    .cs_o           (mem_cs_w),
+    .rdata_i        (mem_rdata_w),
+    .rvalid_i       (mem_rvalid_w),
+    .handshaked_i   (mem_handshaked_w),
+    .aes_addr_o     (aes_addr_w),
+    .aes_wdata_o    (aes_wdata_w),
+    .aes_we_o       (aes_we_w),
+    .aes_cs_o       (aes_cs_w),
+    .aes_rdata_i    (aes_rdata_w),
+    .aes_rvalid_i   (aes_rvalid_w),
+    .handshaked_1_i (aes_handshaked_w)
     );
     
     

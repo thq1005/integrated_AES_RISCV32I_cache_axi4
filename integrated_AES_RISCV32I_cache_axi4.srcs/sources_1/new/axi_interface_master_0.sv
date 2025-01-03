@@ -47,104 +47,140 @@ module axi_interface_master_0(
     output logic handshaked_o
     );
     
-    localparam IDLE = 4'd0, WA = 4'd1, W = 4'd2, B = 4'd3, RA = 4'd4, R = 4'd5;           
-    logic [3:0] state, next_state;
-    logic [1:0] len_cnt;
+    localparam IDLE = 2'd0, WA = 2'd1, W = 2'd2, B = 2'd3, RA = 2'd1, R = 2'd2;       
+
+    logic [3:0] w_state, w_next_state;
+    logic [3:0] r_state, r_next_state;
+
+    logic [1:0] w_len_cnt;
+    logic [1:0] r_len_cnt;
         
     always_ff @(posedge clk_i) begin
         if(~rst_ni) 
-            state <= 0;
+            w_state <= 0;
         else
-            state <= next_state; 
+            w_state <= w_next_state; 
+    end   
+    
+    always_ff @(posedge clk_i) begin
+        if(~rst_ni) 
+            r_state <= 0;
+        else
+            r_state <= r_next_state; 
     end         
-                
+
     always_comb begin
-        case (state)
+        case (w_state)
         IDLE: begin
             if (we_i && cs_i)
-                next_state = WA;
-            else if (!we_i && cs_i)
-                next_state = RA;
+                w_next_state = WA;
             else 
-                next_state = IDLE;
+                w_next_state = IDLE;
         end        
         WA: begin
             if (awvalid_o && awready_i)
-                next_state = W;
+                w_next_state = W;
             else
-                next_state = WA;
+                w_next_state = WA;
         end
         W: begin
             if (wvalid_o && wready_i && wlast_o)
-                next_state = B;
+                w_next_state = B;
             else
-                next_state = W;
+                w_next_state = W;
         end
         B: begin
             if (bvalid_i && bready_o) 
-                next_state = IDLE;
+                w_next_state = IDLE;
             else 
-                next_state = B;
+                w_next_state = B;
         end
+        endcase
+    end    
+
+    always_comb begin
+        case (r_state)
+        IDLE: begin
+            if (!we_i && cs_i)
+                r_next_state = RA;
+            else 
+                r_next_state = IDLE;
+        end        
         RA: begin
             if (arvalid_o && arready_i)
-                next_state = R;
+                r_next_state = R;
             else 
-                next_state = RA;    
+                r_next_state = RA;    
         end
         R: begin
             if (rvalid_i && rready_o && rlast_i)
-                next_state = IDLE;
+                r_next_state = IDLE;
             else 
-                next_state = R;
+                r_next_state = R;
         end
         endcase
     end    
     
+
+
     always_ff @(posedge clk_i) begin
         if (!rst_ni) begin
-            len_cnt = 0;
+            w_len_cnt = 0;
         end
-        else if (state == IDLE) begin
-            len_cnt = 0;
+        else if (w_state == IDLE) begin
+            w_len_cnt = 0;
         end
-        else if (state == W | state == R) begin
-            if ((wvalid_o && wready_i) | (rvalid_i && rready_o))
-                len_cnt = len_cnt - 1;
+        else if (w_state == W) begin
+            if (wvalid_o && wready_i)
+                w_len_cnt = w_len_cnt - 1;
         end 
     end
     
-    
+    always_ff @(posedge clk_i) begin
+        if (!rst_ni) begin
+            r_len_cnt = 0;
+        end
+        else if (r_state == IDLE) begin
+            r_len_cnt = 0;
+        end
+        else if (r_state == R) begin
+            if (rvalid_i && rready_o)
+                r_len_cnt = r_len_cnt - 1;
+        end 
+    end
+
     always_comb begin
-        if (len_cnt == 0) 
-            wdata_o = wdata_i[127:96];
-        else if (len_cnt == 3) 
-            wdata_o = wdata_i[95:64];
-        else if (len_cnt == 2) 
-            wdata_o = wdata_i[63:32];
-        else if (len_cnt == 1)
+        if (w_len_cnt == 0) 
             wdata_o = wdata_i[31:0];
+        else if (w_len_cnt == 3) 
+            wdata_o = wdata_i[63:32];
+        else if (w_len_cnt == 2) 
+            wdata_o = wdata_i[95:64];
+        else if (w_len_cnt == 1)
+            wdata_o = wdata_i[127:96];
     end
     
+
+
     always_ff @(posedge clk_i) begin
         if (!rst_ni) 
             rdata_o = 0;
-        else if (state == R) begin
+        else if (r_state == R) begin
             if (rvalid_i && rready_o) begin
-                if (len_cnt == 3) 
+                if (r_len_cnt == 3) 
                     rdata_o[31:0] = rdata_i;
-                else if (len_cnt == 2) 
+                else if (r_len_cnt == 2) 
                     rdata_o[63:32] = rdata_i;
-                else if (len_cnt == 1) 
+                else if (r_len_cnt == 1) 
                     rdata_o[95:64] = rdata_i;
-                else if (len_cnt == 0) begin
+                else if (r_len_cnt == 0) begin
                     rdata_o[127:96] = rdata_i;
                 end
             end 
         end
     end
     
-    assign handshaked_o = (state == R)?1:0;
+    assign handshaked_o = (r_state == R)?1:0;
     
     always_ff @(posedge clk_i) begin
         if (!rst_ni) begin
@@ -156,20 +192,29 @@ module axi_interface_master_0(
             rvalid_o = 0;
     end
     
-    assign handshake_o = (state == R)?1:0;
+
     always_ff @(posedge clk_i) begin
         if (!rst_ni) begin
             awaddr_o <= 0;
             wstrb_o <= 0;
-            araddr_o <= 0;
-        end else if (state == IDLE) begin
+        end else if (w_state == IDLE) begin
             awaddr_o <= addr_i;
             wstrb_o  <= 4'hf;
-            araddr_o <= addr_i;
         end
         else begin
             awaddr_o  <= awaddr_o;
             wstrb_o   <= wstrb_o;
+        end
+    end
+
+
+    always_ff @(posedge clk_i) begin
+        if (!rst_ni) begin
+            araddr_o <= 0;
+        end else if (r_state == IDLE) begin
+            araddr_o <= addr_i;
+        end
+        else begin
             araddr_o  <= araddr_o; 
         end
     end
@@ -178,18 +223,18 @@ module axi_interface_master_0(
     assign arlen_o   = 3;
     assign arsize_o  = 2;
     assign arburst_o = 1;
-    assign rready_o  = (state == R);
-    assign arvalid_o = (state == RA);
+    assign rready_o  = (r_state == R);
+    assign arvalid_o = (r_state == RA);
     
     assign awid_o    = 1;
     assign awlen_o   = 3;
     assign awsize_o  = 2;
     assign awburst_o = 1;
-    assign awvalid_o = (state == WA);
+    assign awvalid_o = (w_state == WA);
     
-    assign wlast_o  = ((state == W) && (len_cnt == 1));
-    assign wvalid_o = (state == W);
-    assign bready_o = (state == B);
+    assign wlast_o  = ((w_state == W) && (w_len_cnt == 1));
+    assign wvalid_o = (w_state == W);
+    assign bready_o = (w_state == B);
                  
         
 endmodule

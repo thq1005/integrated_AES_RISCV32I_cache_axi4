@@ -1,10 +1,12 @@
-module ram(
+module ram(								//SDPRAM
     input logic clk_i,
     input logic rst_ni,
-    input logic [31:0] addr_i,
+    input logic [31:0] waddr_i,
+	input logic [31:0] raddr_i,
     input logic [31:0] wdata_i,
     input logic cs_i,
     input logic we_i,
+	input logic re_i,
 	/* ------------ */
     output logic [31:0] rdata_o
 );
@@ -39,21 +41,21 @@ module ram(
 	
 	logic temp;
 	
-	assign temp = (addr_i > 511) ? 1 : 0; 
+	assign temp = (raddr_i > 511) ? 1 : 0; 
 	always_ff @(posedge clk_i) begin
 	    if (!rst_ni) begin
 	       for (int i = 0;i < 512; i++)
 	           dmem[i] = '0;
 	    end
 		else if (cs_i) begin 
-            if (!we_i) begin
+            if (re_i) begin
               if (!temp)
-                  rdata_o = imem[addr_i[31:2]];
+                  	rdata_o = imem[raddr_i[31:2]];
               else 
-                  rdata_o = dmem[addr_i[31:2]-512];
+                  	rdata_o = dmem[raddr_i[31:2]-512];
             end
-            else if (we_i)
-                    dmem[addr_i[31:2]-512] = wdata_i;
+            if (we_i)
+                	dmem[waddr_i[31:2]-512] = wdata_i;
         end
 	end
 

@@ -78,7 +78,7 @@
 `define AES_ROUND           10
 `define KEY_WIDTH           128
 `define ADDR_CTRL           8'h8
-`define CTRL_INIT_BIT       0 
+`define CTRL_INIT_BIT       0
 `define CTRL_NEXT_BIT       1
 `define ADDR_STATUS         8'h9
 `define STATUS_READY_BIT    0

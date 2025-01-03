@@ -47,10 +47,6 @@ logic [`ADDR_WIDTH-1:0] raddr_w;
 logic [`DATA_WIDTH-1:0] rdata_w;
 
 logic r_cs;
-logic r_we;
-logic [`ADDR_WIDTH-1:0] r_addr;
-logic [`DATA_WIDTH-1:0] r_wdata;
-logic [`DATA_WIDTH-1:0] r_rdata;
 
 axi_interface_slave s1_itf (
 .clk_i      (clk_i),
@@ -99,32 +95,17 @@ always_comb begin
         r_cs = 1;
 end
 
-always_comb begin
-    r_we = 0;
-    if (we_w) 
-        r_we = 1;
-end
-
-always_comb begin
-    r_addr = (we_w) ? waddr_w : raddr_w;
-end
-
-always_comb begin
-    r_wdata = wdata_w;
-end
-
-always_comb begin
-    rdata_w = r_rdata;
-end
 
 ram sdram_inst(
-.clk_i   (clk_i),
-.rst_ni  (rst_ni),   
-.cs_i    (r_cs),
-.we_i    (r_we),
-.addr_i  (r_addr),
-.wdata_i (r_wdata),
-.rdata_o (r_rdata)
+.clk_i    (clk_i),
+.rst_ni   (rst_ni),   
+.cs_i     (r_cs),
+.we_i     (we_w),
+.re_i     (re_w),
+.raddr_i  (raddr_w),
+.waddr_i  (waddr_w),
+.wdata_i  (wdata_w),
+.rdata_o  (rdata_w)
 );
 
 endmodule

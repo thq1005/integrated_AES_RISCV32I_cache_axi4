@@ -43,99 +43,116 @@ module axi_interface_master_1(
     input logic we_i,
     input logic cs_i,
     output logic [`DATA_WIDTH - 1:0] rdata_o,
-    output logic rvalid_o
+    output logic rvalid_o,
+    output logic handshaked_o
     );
     
-    localparam IDLE = 4'd0, WA = 4'd1, W = 4'd2, B = 4'd3, RA = 4'd4, R = 4'd5;           
-    logic [3:0] state, next_state;
+    localparam IDLE = 2'd0, WA = 2'd1, W = 2'd2, B = 2'd3, RA = 2'd1, R = 2'd2;       
+
+    logic [3:0] w_state, w_next_state;
+    logic [3:0] r_state, r_next_state;
+
+    logic [1:0] w_len_cnt;
+    logic [1:0] r_len_cnt;
         
     always_ff @(posedge clk_i) begin
         if(~rst_ni) 
-            state <= 0;
+            w_state <= 0;
         else
-            state <= next_state; 
+            w_state <= w_next_state; 
+    end   
+    
+    always_ff @(posedge clk_i) begin
+        if(~rst_ni) 
+            r_state <= 0;
+        else
+            r_state <= r_next_state; 
     end         
-                
+
     always_comb begin
-        case (state)
+        case (w_state)
         IDLE: begin
             if (we_i && cs_i)
-                next_state = WA;
-            else if (!we_i && cs_i)
-                next_state = RA;
+                w_next_state = WA;
             else 
-                next_state = IDLE;
+                w_next_state = IDLE;
         end        
         WA: begin
             if (awvalid_o && awready_i)
-                next_state = W;
+                w_next_state = W;
             else
-                next_state = WA;
+                w_next_state = WA;
         end
         W: begin
             if (wvalid_o && wready_i && wlast_o)
-                next_state = B;
+                w_next_state = B;
             else
-                next_state = W;
+                w_next_state = W;
         end
         B: begin
             if (bvalid_i && bready_o) 
-                next_state = IDLE;
+                w_next_state = IDLE;
             else 
-                next_state = B;
+                w_next_state = B;
         end
+        endcase
+    end    
+
+    always_comb begin
+        handshaked_o = ((r_state == R)|(r_state == RA)) | ((w_state == W)|(w_state == WA)|(w_state == B)) ? 1 : 0;
+    end
+
+    always_comb begin
+        case (r_state)
+        IDLE: begin
+            if (!we_i && cs_i)
+                r_next_state = RA;
+            else 
+                r_next_state = IDLE;
+        end        
         RA: begin
             if (arvalid_o && arready_i)
-                next_state = R;
+                r_next_state = R;
             else 
-                next_state = RA;    
+                r_next_state = RA;    
         end
         R: begin
             if (rvalid_i && rready_o && rlast_i)
-                next_state = IDLE;
+                r_next_state = IDLE;
             else 
-                next_state = R;
+                r_next_state = R;
         end
         endcase
     end    
     
-    
-    always_ff @(posedge clk_i) begin
-        if (!rst_ni) 
-            rdata_o = 0;
-        else if (state == R) begin
-            if (rvalid_i && rready_o) begin
-                    rdata_o = rdata_i;
-            end
-        end 
-    end
-    
-    always_ff @(posedge clk_i) begin
-        if (!rst_ni) begin
-            rvalid_o = 0;
-        end 
-        else if (rlast_i) 
-            rvalid_o = 1;
-        else 
-            rvalid_o = 0;
-    end
-    
+    assign rdata_o  = rdata_i;
+    assign rvalid_o = (rlast_i && rvalid_i) | bvalid_i;
+
     always_ff @(posedge clk_i) begin
         if (!rst_ni) begin
             awaddr_o <= 0;
-            wstrb_o  <= 0;
-            wdata_o  <= 0;
-            araddr_o <= 0;
-        end else if (state == IDLE) begin
+            wstrb_o <= 0;
+            wdata_o <= 0;
+        end else if (w_state == IDLE) begin
             awaddr_o <= addr_i;
             wstrb_o  <= 4'hf;
-            wdata_o  <= wdata_i; 
+            wdata_o  <= wdata_i;
+        end
+        else begin
+            wdata_o   <= wdata_o;
+            awaddr_o  <= awaddr_o;
+            wstrb_o   <= wstrb_o;
+        end
+    end
+
+
+    always_ff @(posedge clk_i) begin
+        if (!rst_ni) begin
+            araddr_o <= 0;
+        end else if (r_state == IDLE) begin
             araddr_o <= addr_i;
         end
         else begin
-            awaddr_o  <= awaddr_o;
-            wdata_o   <= wdata_o;
-            wstrb_o   <= wstrb_o;
             araddr_o  <= araddr_o; 
         end
     end
@@ -144,18 +161,18 @@ module axi_interface_master_1(
     assign arlen_o   = 0;
     assign arsize_o  = 2;
     assign arburst_o = 0;
-    assign rready_o  = (state == R);
-    assign arvalid_o = (state == RA);
+    assign rready_o  = (r_state == R);
+    assign arvalid_o = (r_state == RA);
     
     assign awid_o    = 2;
     assign awlen_o   = 0;
     assign awsize_o  = 2;
     assign awburst_o = 0;
-    assign awvalid_o = (state == WA);
+    assign awvalid_o = (w_state == WA);
     
-    assign wlast_o  = (state == W);
-    assign wvalid_o = (state == W);
-    assign bready_o = (state == B);
+    assign wlast_o  = (w_state == W);
+    assign wvalid_o = (w_state == W);
+    assign bready_o = (w_state == B);
                  
         
 endmodule
